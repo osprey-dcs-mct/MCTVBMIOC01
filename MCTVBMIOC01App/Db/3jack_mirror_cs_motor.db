@@ -1,0 +1,221 @@
+record(motor, "$(P)HEIGHT") {
+  field(DESC, "Y motor")
+  field(DTYP, "Soft Channel")
+  field(EGU,  "mm")
+  field(RINP, "$(P)$(Q)HEIGHT_MOTOR_SCALE_")
+  field(OUT,  "$(P)$(Q)linr PP")
+  field(DINP, "$(P)$(Q)HEIGHT_DMOV_STS_")
+  field(PREC, "5")
+  field(MRES, "$(MRES=0.00001)")
+  field(RTRY, "0")
+  field(STOO, "$(P)$(Q)stop.PROC")
+
+  info(autosaveFields, "VAL TWV LLM HLM")
+}
+
+# Ensure DMOV record gets set to zero when motor record
+# sets the field to zero
+record(calcout, "$(P)$(Q)HEIGHT_DMOV_OFF_") {
+  field(DESC, "Set DMOV record off")
+  field(INPA, "$(P)HEIGHT.DMOV CPP")
+  field(CALC, "A")
+  field(OOPT, "Transition To Zero")
+  field(DOPT, "Use CALC")
+  field(OUT,  "$(P)$(Q)HEIGHT_DMOV_STS_ PP")
+}
+
+record(bi, "$(P)$(Q)HEIGHT_DMOV_STS_") {
+  field(DESC, "DMOV status record")
+}
+
+record(calcout, "$(P)$(Q)HEIGHT_DMOV_CALC_") {
+  field(DESC, "Calculate motor done status")
+  field(SCAN, "1 second")
+  field(INPA, "$(M1).DMOV CP")
+  field(INPB, "$(M2).DMOV CP")
+  field(INPC, "$(M3).DMOV CP")
+  field(CALC, "A==1&&B==1&&C==1")
+  # Use Every Time to track all motor movements
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(OUT,  "$(P)$(Q)HEIGHT_DMOV_STS_ PP")
+}
+
+record(calc, "$(P)$(Q)HEIGHT_MOTOR_SCALE_") {
+  field(DESC, "Motor scaling calculation -> RVAL")
+  field(PINI, "YES")
+  field(INPA, "$(P)$(Q)t2.D CPP")
+  field(INPB, "$(CS_MRES=0.00001)")
+  field(CALC, "A/B")
+}
+
+record(motor, "$(P)PITCH") {
+  field(DESC, "Pitch motor")
+  field(DTYP, "Soft Channel")
+  field(EGU,  "mrad")
+  field(RINP, "$(P)$(Q)PITCH_MOTOR_SCALE_")
+  field(OUT,  "$(P)$(Q)pitch PP")
+  field(DINP, "$(P)$(Q)PITCH_DMOV_STS_")
+  field(PREC, "5")
+  field(MRES, "$(MRES=0.00001)")
+  field(RTRY, "0")
+  field(STOO, "$(P)$(Q)stop.PROC")
+  # Set negative to give sensible sign for users
+  field(DIR,  "Neg")
+
+  info(autosaveFields, "VAL TWV LLM HLM")
+}
+
+# Ensure DMOV record gets set to zero when motor record
+# sets the field to zero
+record(calcout, "$(P)$(Q)PITCH_DMOV_OFF_") {
+  field(DESC, "Set DMOV record off")
+  field(INPA, "$(P)PITCH.DMOV CPP")
+  field(CALC, "A")
+  field(OOPT, "Transition To Zero")
+  field(DOPT, "Use CALC")
+  field(OUT,  "$(P)$(Q)PITCH_DMOV_STS_ PP")
+}
+
+record(bi, "$(P)$(Q)PITCH_DMOV_STS_") {
+  field(DESC, "DMOV status record")
+}
+
+record(calcout, "$(P)$(Q)PITCH_DMOV_CALC_") {
+  field(DESC, "Calculate motor done status")
+  field(SCAN, "1 second")
+  field(INPA, "$(M1).DMOV CP")
+  field(INPB, "$(M2).DMOV CP")
+  field(INPC, "$(M3).DMOV CP")
+  field(CALC, "A==1&&B==1&&C==1")
+  # Use Every Time to track all motor movements
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(OUT,  "$(P)$(Q)PITCH_DMOV_STS_ PP")
+}
+
+record(calc, "$(P)$(Q)PITCH_MOTOR_SCALE_") {
+  field(DESC, "Motor scaling calculation -> RVAL")
+  field(PINI, "YES")
+  field(INPA, "$(P)$(Q)t2.E CPP")
+  field(INPB, "$(CS_MRES=0.00001)")
+  field(CALC, "A/B")
+}
+
+# PV for inverting the sign of the pitch motor setpoint for use
+# in calculations
+record(calc, "$(P)PITCH_USER") {
+  field(DESC, "Convert mirror pitch to user sign")
+  field(EGU,  "mrad")
+  field(INPA, "$(P)PITCH CPP")
+  field(CALC, "-A")
+}
+  
+record(motor, "$(P)ROLL") {
+  field(DESC, "Roll motor")
+  field(DTYP, "Soft Channel")
+  field(EGU,  "mrad")
+  field(RINP, "$(P)$(Q)ROLL_MOTOR_SCALE_")
+  field(OUT,  "$(P)$(Q)roll PP")
+  field(DINP, "$(P)$(Q)ROLL_DMOV_STS_")
+  field(PREC, "5")
+  field(MRES, "$(MRES=0.00001)")
+  field(RTRY, "0")
+  field(STOO, "$(P)$(Q)stop.PROC")
+
+  info(autosaveFields, "VAL TWV LLM HLM")
+}
+
+# Ensure DMOV record gets set to zero when motor record
+# sets the field to zero
+record(calcout, "$(P)$(Q)ROLL_DMOV_OFF_") {
+  field(DESC, "Set DMOV record off")
+  field(INPA, "$(P)ROLL.DMOV CPP")
+  field(CALC, "A")
+  field(OOPT, "Transition To Zero")
+  field(DOPT, "Use CALC")
+  field(OUT,  "$(P)$(Q)ROLL_DMOV_STS_ PP")
+}
+
+record(bi, "$(P)$(Q)ROLL_DMOV_STS_") {
+  field(DESC, "DMOV status record")
+}
+
+record(calcout, "$(P)$(Q)ROLL_DMOV_CALC_") {
+  field(DESC, "Calculate motor done status")
+  field(SCAN, "1 second")
+  field(INPA, "$(M1).DMOV CP")
+  field(INPB, "$(M2).DMOV CP")
+  field(INPC, "$(M3).DMOV CP")
+  field(CALC, "A==1&&B==1&&C==1")
+  # Use Every Time to track all motor movements
+  field(OOPT, "Every Time")
+  field(DOPT, "Use CALC")
+  field(OUT,  "$(P)$(Q)ROLL_DMOV_STS_ PP")
+}
+
+record(calc, "$(P)$(Q)ROLL_MOTOR_SCALE_") {
+  field(DESC, "Motor scaling calculation -> RVAL")
+  field(PINI, "YES")
+  field(INPA, "$(P)$(Q)t2.F CPP")
+  field(INPB, "$(CS_MRES=0.00001)")
+  field(CALC, "A/B")
+}
+
+record(dfanout, "$(P)$(Q)stop"){
+  field(DESC, "Stop all motors")
+  field(OMSL, "supervisory")
+  field(VAL, "1")
+  field(OUTA, "$(M1).STOP PP")
+  field(OUTB, "$(M2).STOP PP")
+  field(OUTC, "$(M3).STOP PP")
+  field(FLNK, "$(P)$(Q)sync_stop.PROC")
+}
+
+record(seq, "$(P)$(Q)sync_stop")
+{
+  field(DESC, "Sync current positions after stop")
+  field(DLY1, "0.5")
+  field(DOL1, "1")
+  field(LNK1, "$(P)$(Q)sync.PROC")
+}
+
+record(ao, "$(P)$(Q)speed_threshold")
+{
+  field(PINI, "YES")
+  field(VAL, "0.0001")
+}
+
+record(calcout, "_$(P)$(Q)speed_alarm")
+{
+  field(DESC, "Compare all motor speeds")
+  field(INPA, "$(M1).VELO CP")
+  field(INPB, "$(M2).VELO CP")
+  field(INPC, "$(M3).VELO CP")
+  field(INPD, "$(P)$(Q)speed_threshold CP")
+  field(PINI, "YES")
+  field(CALC, "ABS(A-B)+ABS(A-C)<D?0:1")
+  field(OUT, "$(P)$(Q)speed_alarm PP")
+  field(OOPT, "On Change")
+}
+
+record(bi, "$(P)$(Q)speed_alarm")
+{
+  field(DESC, "Alarm if speeds are different")
+  field(ZNAM, "CONSISTENT")
+  field(ONAM, "INCONSISTENT")
+  field(OSV,  "MAJOR")
+  field(PINI, "YES")
+}
+
+record(dfanout, "$(P)$(Q)speed"){
+  field(DESC, "Set speed to all motors")
+  field(OMSL, "supervisory")
+  field(EGU, "mm/sec")
+  field(PREC, "3")
+  field(OUTA, "$(M1).VELO")
+  field(OUTB, "$(M2).VELO")
+  field(OUTC, "$(M3).VELO")
+
+  info(autosaveFields, "VAL")
+}

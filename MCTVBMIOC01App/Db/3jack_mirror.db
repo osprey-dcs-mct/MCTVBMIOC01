@@ -1,0 +1,278 @@
+# File: 3jack_mirror.db
+# Authoer: Wayne Lewis
+# Date: 2017-05-15
+#
+# Description:
+# Kinematics for a three jack mirror
+#
+record(ao, "$(P)$(Q)vback3") {
+  field(OUT, "$(P)$(Q)t1.C  PP MS")
+  field(DOL, "$(M3).VAL  NPP NMS")
+  field(OMSL, "closed_loop")
+  field(PREC, "3")
+}
+
+record(ao, "$(P)$(Q)vback2") {
+  field(OUT, "$(P)$(Q)t1.B  PP MS")
+  field(DOL, "$(M2).VAL  NPP NMS")
+  field(OMSL, "closed_loop")
+  field(PREC, "3")
+}
+
+record(ao, "$(P)$(Q)vback1") {
+  field(OUT, "$(P)$(Q)t1.A  NPP NMS")
+  field(DOL, "$(M1).VAL  NPP NMS")
+  field(OMSL, "closed_loop")
+  field(PREC, "3")
+}
+
+record(ao, "$(P)$(Q)m1BPut") {
+  field(SDIS, "$(P)$(Q)m1.PACT  NPP NMS")
+  field(OUT, "$(P)$(Q)m1.VAL  PP MS")
+}
+
+record(ao, "$(P)$(Q)m1") {
+  field(OUT, "$(P)$(Q)t1.B  PP MS")
+  field(PREC, "3")
+  field(EGU, "mm")
+}
+
+record(ao, "$(P)$(Q)m2BPut") {
+  field(SDIS, "$(P)$(Q)m2.PACT  NPP NMS")
+  field(OUT, "$(P)$(Q)m2.VAL  PP MS")
+}
+
+record(ao, "$(P)$(Q)m2") {
+  field(DTYP, "Soft Channel")
+  field(OUT, "$(P)$(Q)t1.A  PP MS")
+  field(PREC, "3")
+  field(EGU, "mm")
+}
+
+record(ao, "$(P)$(Q)m3BPut") {
+  field(SDIS, "$(P)$(Q)m3.PACT  NPP NMS")
+  field(OUT, "$(P)$(Q)m3.VAL  PP MS")
+}
+
+record(ao, "$(P)$(Q)m3") {
+  field(DTYP, "Soft Channel")
+  field(OUT, "$(P)$(Q)t1.C  PP MS")
+  field(PREC, "3")
+  field(EGU, "mm")
+}
+
+record(ao, "$(P)$(Q)linr_tweakVal") {
+  field(DOL, "1")
+  field(PREC, "3")
+  field(EGU, "mm")
+}
+
+record(ao, "$(P)$(Q)linrBPut") {
+  field(SDIS, "$(P)$(Q)linr.PACT  NPP NMS")
+  field(OUT, "$(P)$(Q)linr.VAL  PP MS")
+}
+
+record(ao, "$(P)$(Q)linr") {
+  field(OUT, "$(P)$(Q)t1.D  PP MS")
+  field(PREC, "3")
+  field(EGU, "mm")
+}
+
+record(ao, "$(P)$(Q)pitch_tweakVal") {
+  field(DOL, "1")
+  field(PREC, "3")
+  field(EGU, "mr")
+}
+
+record(ao, "$(P)$(Q)pitchBPut") {
+  field(SDIS, "$(P)$(Q)pitch.PACT  NPP NMS")
+  field(OUT, "$(P)$(Q)pitch.VAL  PP MS")
+}
+
+record(ao, "$(P)$(Q)pitch") {
+  field(OUT, "$(P)$(Q)t1.E  PP MS")
+  field(PREC, "3")
+  field(EGU, "mr")
+}
+
+record(ao, "$(P)$(Q)roll_tweakVal") {
+  field(DOL, "1")
+  field(PREC, "3")
+  field(EGU, "mr")
+}
+
+record(ao, "$(P)$(Q)rollBPut") {
+  field(SDIS, "$(P)$(Q)roll.PACT  NPP NMS")
+  field(OUT, "$(P)$(Q)roll.VAL  PP MS")
+}
+
+record(ao, "$(P)$(Q)roll") {
+  field(OUT, "$(P)$(Q)t1.F  PP MS")
+  field(PREC, "3")
+  field(EGU, "mr")
+}
+
+record(ao, "$(P)$(Q)length") {
+  field(DESC, "dist between m1/m2 posts")
+  field(PINI, "YES")
+  field(DOL, "$(LENGTH)")
+  field(OMSL, "closed_loop")
+  field(PREC, "3")
+  field(EGU, "m")
+}
+
+record(ao, "$(P)$(Q)width") {
+  field(DESC, "dist between m2/m3 posts")
+  field(PINI, "YES")
+  field(DOL, "$(WIDTH)")
+  field(OMSL, "closed_loop")
+  field(PREC, "3")
+  field(EGU, "m")
+}
+
+record(bo, "$(P)$(Q)set2") {
+  field(OMSL, "closed_loop")
+  field(DOL, "$(P)$(Q)set.VAL  NPP NMS")
+  field(OUT, "$(M3).SET  PP MS")
+  field(ZNAM, "Use")
+  field(ONAM, "Set")
+}
+
+record(bo, "$(P)$(Q)set1") {
+  field(OMSL, "closed_loop")
+  field(FLNK, "$(P)$(Q)set2.PROC  PP MS")
+  field(DOL, "$(P)$(Q)set.VAL  NPP NMS")
+  field(OUT, "$(M1).SET  PP MS")
+  field(ZNAM, "Use")
+  field(ONAM, "Set")
+}
+
+record(bo, "$(P)$(Q)set") {
+  field(FLNK, "$(P)$(Q)set1.PROC  PP MS")
+  field(OUT, "$(M2).SET  PP MS")
+  field(ZNAM, "Use")
+  field(ONAM, "Set")
+}
+
+record(bo, "$(P)mirror-$(Q)") {
+}
+
+record(fanout, "$(P)$(Q)sync") {
+  field(PINI, "YES")
+  field(LNK1, "$(P)$(Q)vback1.PROC PP MS")
+  field(LNK2, "$(P)$(Q)vback2.PROC PP MS")
+  field(LNK3, "$(P)$(Q)vback3.PROC PP MS")
+}
+
+# Position reporting
+record(transform, "$(P)$(Q)t2") {
+  field(DESC, "m1(a),m2(b),m3(c)->l(d),p(e),r(f)")
+  field(CLCD, "((A+B)/2+C)/2")
+  field(CLCE, "((A+B)/2-C)/J*L")
+  field(CLCF, "(A-B)/K*L")
+  field(INPA, "$(M1).RBV  NPP NMS")
+  field(INPB, "$(M2).RBV  NPP NMS")
+  field(INPC, "$(M3).RBV  NPP NMS")
+  field(INPJ, "$(P)$(Q)length.VAL  NPP NMS")
+  field(INPK, "$(P)$(Q)width.VAL  NPP NMS")
+  field(INPL, "1000")
+  field(PREC, "3")
+  field(SDIS, "$(P)$(Q)t2_enable.VAL")
+  field(DISV, "0")
+}
+
+# Movement control
+record(transform, "$(P)$(Q)t1") {
+  field(DESC, "m1(a),m2(b),m3(c)<-l(d),p(e),r(f)")
+  field(CLCA, "D+(E*J+F*K)/(2*L)")
+  field(CLCB, "D+(E*J-F*K)/(2*L)")
+  field(CLCC, "D-(E*J)/(2*L)")
+  field(CLCD, "((A+B)/2+C)/2")
+  field(CLCE, "((A+B)/2-C)/J*L")
+  field(CLCF, "(A-B)/K*L")
+  field(CLCG, "a")
+  field(CLCH, "b")
+  field(CLCI, "c")
+  field(INPJ, "$(P)$(Q)length.VAL  NPP NMS")
+  field(INPK, "$(P)$(Q)width.VAL  NPP NMS")
+  field(INPL, "1000")
+  field(OUTA, "$(P)$(Q)m1BPut.VAL  PP MS")
+  field(OUTB, "$(P)$(Q)m2BPut.VAL  PP MS")
+  field(OUTC, "$(P)$(Q)m3BPut.VAL  PP MS")
+  field(OUTD, "$(P)$(Q)linrBPut.VAL  PP MS")
+  field(OUTE, "$(P)$(Q)pitchBPut.VAL  PP MS")
+  field(OUTF, "$(P)$(Q)rollBPut.VAL  PP MS")
+  field(OUTG, "$(M1).VAL  PP MS")
+  field(OUTH, "$(M2).VAL  PP MS")
+  field(OUTI, "$(M3).VAL  PP MS")
+  field(PREC, "3")
+  field(SDIS, "$(P)$(Q)t1_enable.VAL")
+  field(DISV, "0")
+}
+
+record(transform, "$(P)$(Q)linr_tweak") {
+  field(CLCD, "a?c-e:b?c+e:c")
+  field(INPC, "$(P)$(Q)linr.VAL  NPP NMS")
+  field(INPE, "$(P)$(Q)linr_tweakVal.VAL  NPP NMS")
+  field(OUTD, "$(P)$(Q)linr.VAL  PP MS")
+  field(OUTF, "$(P)$(Q)linr_tweak.A  NPP NMS")
+  field(OUTG, "$(P)$(Q)linr_tweak.B  NPP NMS")
+  field(EGU, "mm")
+  field(PREC, "3")
+}
+
+record(transform, "$(P)$(Q)roll_tweak") {
+  field(CLCD, "a?c-e:b?c+e:c")
+  field(INPC, "$(P)$(Q)roll.VAL  NPP NMS")
+  field(INPE, "$(P)$(Q)roll_tweakVal.VAL  NPP NMS")
+  field(OUTD, "$(P)$(Q)roll.VAL  PP MS")
+  field(OUTF, "$(P)$(Q)roll_tweak.A  NPP NMS")
+  field(OUTG, "$(P)$(Q)roll_tweak.B  NPP NMS")
+  field(EGU, "mr")
+  field(PREC, "3")
+}
+
+record(transform, "$(P)$(Q)pitch_tweak") {
+  field(CLCD, "a?c-e:b?c+e:c")
+  field(INPC, "$(P)$(Q)pitch.VAL  NPP NMS")
+  field(INPE, "$(P)$(Q)pitch_tweakVal.VAL  NPP NMS")
+  field(OUTD, "$(P)$(Q)pitch.VAL  PP MS")
+  field(OUTF, "$(P)$(Q)pitch_tweak.A  NPP NMS")
+  field(OUTG, "$(P)$(Q)pitch_tweak.B  NPP NMS")
+  field(EGU, "mr")
+  field(PREC, "3")
+}
+
+record(swait, "$(P)$(Q)RWait") {
+  field(SCAN, "I/O Intr")
+  field(PINI, "YES")
+  field(FLNK, "$(P)$(Q)t2.PROC  PP MS")
+  field(INAN, "$(M1).RBV")
+  field(INBN, "$(M2).RBV")
+  field(INCN, "$(M3).RBV")
+  field(DOPT, "Use DOL")
+}
+
+record(bo, "$(P)$(Q)t1_enable") {
+  field(DESC, "t1 enable command")
+  field(OMSL, "closed_loop")
+  field(ZNAM, "Disable")
+  field(ONAM, "Enable")
+  field(UDF, "0")
+  field(STAT, "NO_ALARM")
+  field(SEVR, "NO_ALARM")
+
+  info(autosaveFields, "VAL")
+}
+
+record(bo, "$(P)$(Q)t2_enable") {
+  field(DESC, "t2 enable command")
+  field(OMSL, "closed_loop")
+  field(ZNAM, "Disable")
+  field(ONAM, "Enable")
+  field(UDF, "0")
+  field(STAT, "NO_ALARM")
+  field(SEVR, "NO_ALARM")
+
+  info(autosaveFields, "VAL")
+}
