@@ -108,7 +108,7 @@ record(calc, "$(P)PITCH_USER") {
   field(DESC, "Convert mirror pitch to user sign")
   field(EGU,  "mrad")
   field(INPA, "$(P)PITCH CPP")
-  field(CALC, "-A")
+  field(CALC, "A")
 }
   
 record(motor, "$(P)ROLL") {
